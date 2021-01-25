@@ -17,4 +17,4 @@ Well I tried my best in making it foolproof. Beatmaps are copied to said "Cleanu
 ![](https://i.imgur.com/Q1l8huK.png) </br>
 
 # Your code sucks!
-Feel free to improve it (~‾⌣‾ )~
+Feel free to improve it (\~‾⌣‾ )\~
