@@ -5,7 +5,7 @@
 Enables you to automatically filter your Beatmaps using different filters. Beatmaps that don't match any filters will be moved to a "Cleanup" folder, where they can later be removed or moved back.
 
 ## Are my Beatmaps safe?
-Well I tried my best in making it foolproof. Beatmaps are copied to said "Cleanup" folder and not directly deleted, and I added a Button that reverts everything. I also don't directly access any of osu!'s databases; instead I create local copies and read those. Overkill, but better safe than sorry. **It is still your Job to make sure no important maps were deleted.**
+Well I tried my best in making it foolproof. Beatmaps are copied to said "Cleanup" folder and not directly deleted, and I added a Button that reverts everything. I also don't directly access any of osu!'s databases; instead I create local copies and read those. Overkill, but better safe than sorry. **It is still your Job to make sure no important maps are going to get deleted.**
 
 ## Where can I download this?
 [Here!](https://github.com/InvisibleSymbol/osu-cleaner/releases/latest)
