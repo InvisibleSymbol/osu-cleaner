@@ -129,6 +129,7 @@ class MainWindow(QFrame):
         self.status_text.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 
         self.sellout_text = QLabel('<code>- Made by InvisibleSymbol</code>')
+        self.sellout_text = QLabel('<code> v1.0.1 - Made by InvisibleSymbol</code>')
         self.info.setTextFormat(Qt.RichText)
         self.sellout_text.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
 
@@ -139,6 +140,7 @@ class MainWindow(QFrame):
         self.layout.addWidget(self.filter_collections)
         self.layout.addWidget(self.filter_scores)
         self.layout.addWidget(self.filter_played)
+        self.layout.addWidget(self.filter_unsubmitted)
         self.layout.addWidget(self.run_button)
         self.layout.addWidget(MultiWidget(self.revert_button, self.open_folder_button, self.delete_cleanup_button))
         self.layout.addWidget(BottomWidget(self.progressbar, self.status_text, self.sellout_text))
@@ -151,6 +153,7 @@ class MainWindow(QFrame):
         self.logic.init_progress.connect(self.init_progress)
 
         self.logic.analyze_finish_signal.connect(self.post_process)
+        self.logic.show_warning_signal.connect(self.show_warning)
         self.logic.filter_finish_signal.connect(self.return_from_filter)
         self.logic.work_finish_signal.connect(self.announce_finish)
 
@@ -183,6 +186,15 @@ class MainWindow(QFrame):
             shutil.rmtree(os.path.join(self.logic.path, "Cleanup"))
             self.delete_cleanup_button.setDisabled(True)
             self.open_folder_button.setDisabled(True)
+
+    def show_warning(self, message):
+        qm = QMessageBox()
+        qm.setIcon(QMessageBox.Warning)
+        qm.setWindowTitle("Error")
+        qm.setText(f"An Error Occurred!")
+        qm.setInformativeText(message)
+        qm.setStandardButtons(QMessageBox.Ok)
+        return qm.exec_()
 
     def update_progress(self, value):
         self.progressbar.setValue(value)

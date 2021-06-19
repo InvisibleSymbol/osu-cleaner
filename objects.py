@@ -4,6 +4,7 @@ import shutil
 import time
 from itertools import chain
 from pathlib import Path
+import traceback
 
 from PyQt5.QtCore import pyqtSignal, QObject
 from PyQt5.QtWidgets import QPushButton, QFileDialog, QFrame, QHBoxLayout, QLabel, QCheckBox, QSizePolicy, QGridLayout
@@ -86,6 +87,7 @@ class Logic(QObject):
     analyze_finish_signal = pyqtSignal()
     filter_finish_signal = pyqtSignal(int, int)
     work_finish_signal = pyqtSignal()
+    show_warning_signal = pyqtSignal(str)
 
     def __init__(self):
         super().__init__()
@@ -191,14 +193,17 @@ class Logic(QObject):
 
         self.update_status.emit("Loading Beatmap with Scores")
         self.init_progress.emit(0)
-        sc_db = ScoresDb(os.path.abspath("tmp/scores.db"))
-
-        hashes = sc_db.scoresByHash.keys()
-        self.hashes["scores"] = list(hashes)
+        try:
+            sc_db = ScoresDb(os.path.abspath("tmp/scores.db"))
+            hashes = sc_db.scoresByHash.keys()
+            self.hashes["scores"] = list(hashes)
+            sc_db.inFile.close()
+            del sc_db
+        except Exception as err:
+            self.hashes["scores"] = []
+            self.show_warning_signal.emit("Couldn't process Scores:\n" + "".join(traceback.TracebackException.from_exception(err).format()) + "\n If you think this isn't your fault, message InvisibleSymbol#2788 on Discord with this screenshot.")
         if self.stop_thread:
             return
-        sc_db.inFile.close()
-        del sc_db
 
         self.update_status.emit("Loading all Beatmaps")
         self.init_progress.emit(0)
